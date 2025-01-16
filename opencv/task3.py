@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 
 # 原始图像
-img = cv.imread("../image/flag6.jpg")
+img = cv.imread("../image/flag4.jpg")
 img = cv.resize(img, (480, 640))
 cv.imshow("original", img)
 cv.waitKey(0)
@@ -60,12 +60,13 @@ rightmost = tuple(cnt[cnt[:, :, 0].argmax()][0])
 topmost = tuple(cnt[cnt[:, :, 1].argmin()][0])
 bottommost = tuple(cnt[cnt[:, :, 1].argmax()][0])
 distance = [(leftmost[0] - x)**2 + (leftmost[1] - y)**2, (rightmost[0] - x)**2 + (rightmost[1] - y)**2, (topmost[0] - x)**2 + (topmost[1] - y)**2, (bottommost[0] - x)**2 + (bottommost[1] - y)**2]
-index_max = 0
-dis_max = distance[0]
-for i in range(1, 4):
-    if distance[i] > dis_max:
-        dis_max = distance[i]
-        index_max = i
+index_max = np.argmax(distance)
+# index_max = 0
+# dis_max = distance[0]
+# for i in range(1, 4):
+#     if distance[i] > dis_max:
+#         dis_max = distance[i]
+#         index_max = i
 # print(index_max)
 if index_max == 0:
     angle += 180
