@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 
 # 原始图像
-img = cv.imread("../image/flag1.jpg")
+img = cv.imread("../image/flag6.jpg")
 img = cv.resize(img, (480, 640))
 cv.imshow("original", img)
 cv.waitKey(0)
@@ -38,6 +38,7 @@ cv.waitKey(0)
 cv.destroyAllWindows()
 
 # 选择目标轮廓
+'''轮廓选择需改进，目前选择为面积最大的'''
 cnt = contours[0]
 contours_max = cv.contourArea(contours[0])
 for contour in contours:
@@ -54,12 +55,17 @@ for contour in contours:
 # 轮廓方向（最优拟合椭圆的方向）
 (x, y), (Ma, ma), angle = cv.fitEllipse(cnt)
 print(angle)
+leftmost = tuple(cnt[cnt[:, :, 0].argmin()][0])
+rightmost = tuple(cnt[cnt[:, :, 0].argmax()][0])
+if (leftmost[0] - x)**2 + (leftmost[1] - y)**2 > (rightmost[0] - x)**2 + (rightmost[1] - y)**2:
+    angle += 180
 # ellipse = cv.fitEllipse(cnt)
 # cv.ellipse(img, ellipse, (0, 255, 0), 2)
 # cv.imshow("img", img)
 # cv.waitKey(0)
 # cv.destroyAllWindows()
 
+'''旋转变换可改进'''
 # 根据angle进行图像旋转变换
 rows, cols = img.shape[:2]
 M = cv.getRotationMatrix2D((rows/2, cols/2), angle, 0.6)
