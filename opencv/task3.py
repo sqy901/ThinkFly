@@ -57,8 +57,24 @@ for contour in contours:
 print(angle)
 leftmost = tuple(cnt[cnt[:, :, 0].argmin()][0])
 rightmost = tuple(cnt[cnt[:, :, 0].argmax()][0])
-if (leftmost[0] - x)**2 + (leftmost[1] - y)**2 > (rightmost[0] - x)**2 + (rightmost[1] - y)**2:
+topmost = tuple(cnt[cnt[:, :, 1].argmin()][0])
+bottommost = tuple(cnt[cnt[:, :, 1].argmax()][0])
+distance = [(leftmost[0] - x)**2 + (leftmost[1] - y)**2, (rightmost[0] - x)**2 + (rightmost[1] - y)**2, (topmost[0] - x)**2 + (topmost[1] - y)**2, (bottommost[0] - x)**2 + (bottommost[1] - y)**2]
+index_max = 0
+dis_max = distance[0]
+for i in range(1, 4):
+    if distance[i] > dis_max:
+        dis_max = distance[i]
+        index_max = i
+# print(index_max)
+if index_max == 0:
     angle += 180
+elif index_max == 2:
+    if angle > 90:
+        angle += 180
+elif index_max == 3:
+    if angle < 90:
+        angle += 180
 # ellipse = cv.fitEllipse(cnt)
 # cv.ellipse(img, ellipse, (0, 255, 0), 2)
 # cv.imshow("img", img)
