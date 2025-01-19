@@ -165,5 +165,3 @@ for i in range(cnt):
     x, y, w, h = cv.boundingRect(contour)
     res = img[y:y+h, x:x+w]
     _ = cv.imwrite("generate_image3/{}.png".format(i), res)
-    cv.waitKey(0)
-    cv.destroyAllWindows()
